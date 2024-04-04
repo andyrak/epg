@@ -11,13 +11,13 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [18.x]
+        site: [ 'RetroCrush.us', 'Animax.jp', 'JOCXDTV.jp', 'NASATVMedia.us', 'NASATVPublic.us']
 
     steps:
     - uses: actions/checkout@v3
@@ -28,17 +28,29 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm run grab -- --site=toonamiaftermath.com
-    - name: config
-      run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
+        
+    - name: generate channel xml  
+      run: npm run grab -- --site=${{ matrix.site }}
+
+    - name: rename output file
+      run: mv guide.xml ${{ matrix.site }}.guide.xml
+    
     - name: git add
       run: |
-          git add -f guide.xml
+          git add -f ${{ matrix.site }}.guide.xml
           ls -la
+    
+    - name: update README.md
+      run: |
+          echo "### EPG XML for ${{ matrix.site }}" >> README.md
+          echo "- [https://raw.githubusercontent.com/andyrak/epg/master/${{ matrix.site }}.guide.xml](https://raw.githubusercontent.com/andyrak/epg/master/${{ matrix.site }}.guide.xml)" >> README.md
+          echo "" >> README.md
+
     - name: commit & push
       run: |
-          git commit -am "xml is updated"
-          git push
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        git add README.md
+        git commit -am "xml and readme updated"
+        git push
     
