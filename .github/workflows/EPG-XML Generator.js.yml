@@ -13,12 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        node-version: [18.x]
-        site: [ 'RetroCrush.us', 'Animax.jp', 'JOCXDTV.jp', 'NASATVMedia.us', 'NASATVPublic.us']
-
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
