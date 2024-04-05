@@ -28,23 +28,41 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
-        
-    - name: generate channel xml  
-      run: npm run grab -- --site=${{ matrix.site }}
+    
+    - name: git config
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
 
-    - name: rename output file
-      run: mv guide.xml ${{ matrix.site }}.guide.xml
-    
-    - name: git add
+    - name: generate RetroCrush.us xml
       run: |
-          git add -f ${{ matrix.site }}.guide.xml
-          ls -la
-    
-    - name: update README.md
+        npm run grab -- --site=RetroCrush.us
+        mv guide.xml RetroCrush.us.guide.xml
+        git add RetroCrush.us.guide.xml
+
+    - name: generate Animax.jp xml
       run: |
-          echo "### EPG XML for ${{ matrix.site }}" >> README.md
-          echo "- [https://raw.githubusercontent.com/andyrak/epg/master/${{ matrix.site }}.guide.xml](https://raw.githubusercontent.com/andyrak/epg/master/${{ matrix.site }}.guide.xml)" >> README.md
-          echo "" >> README.md
+        npm run grab -- --site=Animax.jp
+        mv guide.xml Animax.jp.guide.xml
+        git add Animax.jp.guide.xml
+
+    - name: generate JOCXDTV.jp xml
+      run: |
+        npm run grab -- --site=JOCXDTV.jp
+        mv guide.xml JOCXDTV.jp.guide.xml
+        git add JOCXDTV.jp.guide.xml
+
+    - name: generate NASATVMedia.us xml
+      run: |
+        npm run grab -- --site=NASATVMedia.us
+        mv guide.xml NASATVMedia.us.guide.xml
+        git add NASATVMedia.us.guide.xml
+
+    - name: generate NASATVPublic.us xml
+      run: |
+        npm run grab -- --site=NASATVPublic.us
+        mv guide.xml NASATVPublic.us.guide.xml
+        git add NASATVPublic.us.guide.xml
 
     - name: commit & push
       run: |
