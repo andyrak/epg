@@ -30,32 +30,27 @@ jobs:
 
     - name: generate RetroCrush.us xml
       run: |
-        npm run grab -- --site=RetroCrush.us
-        mv guide.xml RetroCrush.us.guide.xml
+        npm run grab -- --output=RetroCrush.us.guide.xml --site=RetroCrush.us
         git add RetroCrush.us.guide.xml
 
     - name: generate Animax.jp xml
       run: |
-        npm run grab -- --site=Animax.jp
-        mv guide.xml Animax.jp.guide.xml
+        npm run grab -- --output=Animax.jp.guide.xml --site=Animax.jp
         git add Animax.jp.guide.xml
 
     - name: generate JOCXDTV.jp xml
       run: |
-        npm run grab -- --site=JOCXDTV.jp
-        mv guide.xml JOCXDTV.jp.guide.xml
+        npm run grab -- --output=JOCXDTV.jp.guide.xml --site=JOCXDTV.jp
         git add JOCXDTV.jp.guide.xml
 
     - name: generate NASATVMedia.us xml
       run: |
-        npm run grab -- --site=NASATVMedia.us
-        mv guide.xml NASATVMedia.us.guide.xml
+        npm run grab -- --output=NASATVMedia.us.guide.xml --site=NASATVMedia.us
         git add NASATVMedia.us.guide.xml
 
     - name: generate NASATVPublic.us xml
       run: |
-        npm run grab -- --site=NASATVPublic.us
-        mv guide.xml NASATVPublic.us.guide.xml
+        npm run grab -- --output=NASATVPublic.us.guide.xml --site=NASATVPublic.us
         git add NASATVPublic.us.guide.xml
 
     - name: commit & push
